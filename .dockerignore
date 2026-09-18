@@ -1,0 +1,7 @@
+node_modules
+.output
+dist
+dist-ssr
+.git
+.env
+.lovable

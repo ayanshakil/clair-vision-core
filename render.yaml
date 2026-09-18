@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: lumen
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: SUPABASE_PROJECT_ID
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_PROJECT_ID
+        sync: false
+      - key: VITE_SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: LOVABLE_API_KEY
+        sync: false
+      - key: VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY
+        sync: false
+      - key: VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID
+        sync: false
