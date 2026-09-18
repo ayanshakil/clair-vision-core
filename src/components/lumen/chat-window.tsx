@@ -374,11 +374,11 @@ export function ChatWindow({ threadId }: { threadId: string }) {
   return (
     <div
       className={cn(
-        "aster-sky relative flex h-full flex-1 flex-col bg-background",
+        "aster-sky relative flex h-full flex-1 flex-col overflow-hidden bg-background",
         codeMode && "code-terminal",
       )}
     >
-      <StarField />
+      <NightSky />
       {showCalc && (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 top-14 z-30 flex items-end justify-end p-3 md:p-5">
           <div className="pointer-events-auto animate-msg-in-right">
@@ -680,16 +680,25 @@ function EmptyState({ onPick }: { onPick: (text: string) => void }) {
   return (
     <div className="flex h-full flex-col items-center justify-center px-5 pb-2 pt-8">
       <div className="mb-6 flex flex-col items-center text-center">
-         <TrajectoryMark />
-        <h1 className="mt-5 font-serif text-3xl font-normal italic sm:text-4xl">
+        <RocketMark />
+        <h1
+          className="aster-fade-in mt-5 font-serif text-3xl font-normal italic sm:text-4xl"
+          style={{ animationDelay: "0.55s" }}
+        >
           How can I help you tonight?
         </h1>
-        <p className="mt-2 max-w-md text-sm text-muted-foreground">
+        <p
+          className="aster-fade-in mt-2 max-w-md text-sm text-muted-foreground"
+          style={{ animationDelay: "0.68s" }}
+        >
           Ask Lumen anything — code, ideas, plans, explanations, writing, math.
           I'll do my best.
         </p>
       </div>
-       <div className="grid w-full max-w-[600px] grid-cols-1 gap-3 sm:grid-cols-2">
+      <div
+        className="aster-fade-in grid w-full max-w-[600px] grid-cols-1 gap-3 sm:grid-cols-2"
+        style={{ animationDelay: "0.8s" }}
+      >
         {SUGGESTIONS.map((s) => {
           const Icon = s.icon;
           return (
@@ -713,17 +722,40 @@ function EmptyState({ onPick }: { onPick: (text: string) => void }) {
   );
 }
 
-function TrajectoryMark() {
+/** Hero mark for the empty chat state: the Lumen mark climbing through the night sky. */
+function RocketMark() {
   return (
-    <svg
-      aria-label="Lumen trajectory"
-       className="aster-trajectory h-[76px] w-[120px] text-primary"
-       viewBox="0 0 120 76"
-      fill="none"
-      role="img"
-    >
-       <path className="aster-arrow" d="M60 68V10M60 10l-5 7M60 10l5 7" />
-       <path className="aster-horizon" d="M15 68s15-10 45-10 45 10 45 10" />
+    <div className="rocket-mark" aria-label="Lumen" role="img">
+      <span className="rocket-ring" aria-hidden="true" />
+      <span className="rocket-ring rocket-ring-2" aria-hidden="true" />
+      <div className="rocket-glow" aria-hidden="true" />
+      <div className="rocket-plate" aria-hidden="true" />
+      <LumenGlyph className="rocket-icon" />
+      <span className="rocket-trail" aria-hidden="true">
+        <i /><i /><i />
+      </span>
+    </div>
+  );
+}
+
+/** The Lumen brand mark (same glyph as the sidebar's AsterMark) — an ascending trajectory. */
+function LumenGlyph({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 30 30" fill="none" aria-hidden="true">
+      <path
+        d="M15 22V6M15 6l-3 4.5M15 6l3 4.5"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 24s4-3.5 11-3.5S26 24 26 24"
+        stroke="currentColor"
+        strokeOpacity=".5"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -735,16 +767,24 @@ const STAR_POINTS = [
   [94, 36, 1], [12, 53, 1], [35, 95, 1], [73, 4, 1], [97, 71, 1],
 ] as const;
 
-function StarField() {
+/** Persistent night-sky backdrop for the whole chat surface: nebula glow, stars, a moon, a distant ringed planet, and the odd shooting star. */
+function NightSky() {
   return (
-    <div className="aster-stars" aria-hidden="true">
-      {STAR_POINTS.map(([left, top, size], index) => (
-        <i
-          key={`${left}-${top}`}
-          className={index % 6 === 0 ? "twinkle" : undefined}
-          style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, animationDelay: `${index * 0.41}s` }}
-        />
-      ))}
+    <div className="aster-sky-layer" aria-hidden="true">
+      <div className="aster-nebula" />
+      <div className="aster-moon" />
+      <div className="aster-planet" />
+      <div className="aster-stars">
+        {STAR_POINTS.map(([left, top, size], index) => (
+          <i
+            key={`${left}-${top}`}
+            className={index % 6 === 0 ? "twinkle" : undefined}
+            style={{ left: `${left}%`, top: `${top}%`, width: size, height: size, animationDelay: `${index * 0.41}s` }}
+          />
+        ))}
+      </div>
+      <span className="aster-shooting-star aster-shooting-star-1" />
+      <span className="aster-shooting-star aster-shooting-star-2" />
     </div>
   );
 }
